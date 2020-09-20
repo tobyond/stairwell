@@ -3,7 +3,6 @@ require "stairwell"
 require "pry"
 
 require "minitest/autorun"
-require "forwardable"
 
 class Minitest::Test
   def assert_raises_with_message(exception, msg, &block)
