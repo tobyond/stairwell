@@ -1,5 +1,3 @@
-module Stairwell::CoreExtensions::Core; end
-
 class String
   def squish!
     gsub!(/[[:space:]]+/, " ")
