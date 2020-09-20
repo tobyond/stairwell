@@ -1,5 +1,5 @@
-require "stairwell/core_extensions/types"
 require "stairwell/core_extensions/core"
+require "stairwell/core_extensions/types"
 
 module Stairwell
   class TypeValidator
