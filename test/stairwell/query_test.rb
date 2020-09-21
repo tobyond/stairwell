@@ -23,14 +23,16 @@ end
 
 class SomeOtherSql < Stairwell::Query
   validate_type :foo, :string
-  validate_type :boo, :sql_date_time
+  validate_type :moo, [:integer]
+  validate_type :goo, [:string]
 
   query <<-SQL
     SELECT
       *
     FROM myothertable
     WHERE column_a = :foo
-      AND column_b < :boo
+      AND column_b IN(:moo)
+      AND column_c IN(:goo)
   SQL
 end
 
@@ -108,5 +110,21 @@ class Stairwell::QueryTest < Minitest::Test
     expected_result = "SELECT * FROM mytable WHERE column_a = 'string' AND column_b = 1 AND column_c = TRUE AND column_c = 1.0 AND column_c = 'Date' AND column_c = 'DateTime'"
 
     assert_match SomeSql.sql(**args_hash), expected_result
+  end
+
+  def test_in_statement_with_arrays_with_valid_args
+    binds = { foo: "This", moo: [1, 2, 3, 4], goo: %w(1 2 3 4) }
+    expected_result = "SELECT * FROM myothertable WHERE column_a = 'This' AND column_b IN(1, 2, 3, 4) AND column_c IN('1', '2', '3', '4')"
+
+    assert_match SomeOtherSql.sql(**binds), expected_result
+  end
+
+  def test_in_statement_with_arrays_with_invalid_args
+    binds = { foo: "This", moo: [1, '2', 3, 4], goo: %w(1 2 3 4) }
+
+    assert_raises_with_message Stairwell::InvalidBindType, "moo is not [:integer]" do
+      SomeOtherSql.sql(**binds)
+    end
+
   end
 end

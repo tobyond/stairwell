@@ -48,6 +48,12 @@ class Float
   end
 end
 
+class Array
+  def sql_quote
+    map(&:sql_quote).join(", ")
+  end
+end
+
 class Date
   def self.parsable?(string)
     begin

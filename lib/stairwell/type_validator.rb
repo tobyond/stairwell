@@ -16,7 +16,8 @@ module Stairwell
 
       TYPES.each do |type|
         define_method(type.to_s.underscore.to_sym) do |arg|
-          arg.is_a?(type)
+          return arg.is_a?(type) unless arg.is_a?(Array)
+          arg.all? { |element| element.is_a?(type) }
         end
       end
     end
