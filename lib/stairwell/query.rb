@@ -2,7 +2,7 @@ module Stairwell
   class Query
 
     class << self
-      attr_accessor :bind_hash, :all_validations, :sql_string, :bind_object_array
+      attr_accessor :bind_hash, :all_validations, :sql_string
 
       def validate_type(*args)
         @all_validations ||= {}
@@ -11,7 +11,6 @@ module Stairwell
 
       def sql(**args)
         @bind_hash = args
-        @bind_object_array = []
         validate!
         transformed_sql_string
       end
@@ -27,6 +26,7 @@ module Stairwell
 
           bind_hash.each do |bind_name, bind_value|
             type = all_validations[bind_name]
+            type = type.first if type.is_a?(Array)
             valid = TypeValidator.send(type, bind_value)
 
             raise InvalidBindType.new("#{bind_name} is not #{all_validations[bind_name]}") unless valid
