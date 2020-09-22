@@ -34,6 +34,7 @@ class UsersSql < Stairwell::Query
   validate_type :gpa, :float
   validate_type :date_joined, :sql_date
   validate_type :created_at, :sql_date_time
+  validate_type :favorite_numbers, [:integer]
 
   query <<-SQL
     SELECT
@@ -45,6 +46,7 @@ class UsersSql < Stairwell::Query
       AND gpa = :gpa
       AND date_joined = :date_joined
       AND created_at >= :created_at
+      AND favorite_numbers IN (:favorite_numbers)
     ;
   SQL
 end
@@ -58,6 +60,7 @@ binds = {
   gpa: 4.2
   date_joined: "2008-08-28",
   created_at: "2008-08-28 23:41:18",
+  favorite_numbers: [4, 7, 100]
 }
 
 # and call the following:
@@ -66,7 +69,7 @@ UsersSql.sql(binds)
 
 # You will receive the following result:
 
-"SELECT * FROM users WHERE name = 'First' age = 99 active = TRUE date_joined = '2008-08-28' created_at = '2008-08-28 23:41:18' gpa = 4.2;"
+"SELECT * FROM users WHERE name = 'First' AND age = 99 AND active = TRUE AND date_joined = '2008-08-28' AND created_at >= '2008-08-28 23:41:18' AND gpa = 4.2 AND favorite_numbers IN (4, 7, 100) ;"
 ```
 
 Binds passed in are validated against the validate_type, so if you have a validate_type you must include that value in your binds hash.
@@ -82,7 +85,6 @@ Tested in both Mysql and Postgres.
 * Date/Datetime are not validated for their format, it is expected that you will pass the correct format.
 * Datetime in postgres is not currently working for equality, only for `>` or `<` or `>=` or `<=`
 * Column/table quoting is not currently available.
-* `IN` statements with arrays support is forthcoming.
 
 
 ## Development
