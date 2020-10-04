@@ -5,8 +5,8 @@ class SomeSql < Stairwell::Query
   validate_type :that, :integer
   validate_type :the_other, :boolean
   validate_type :other_the, :float
-  validate_type :other_that, :sql_date
-  validate_type :other_this, :sql_date_time
+  validate_type :other_that, :date
+  validate_type :other_this, :date_time
 
   query <<-SQL
     SELECT
@@ -69,7 +69,7 @@ class Stairwell::QueryTest < Minitest::Test
     args_hash_dup = args_hash.dup
     args_hash_dup[:the_other] = "not_true"
 
-    assert_raises_with_message Stairwell::InvalidBindType, "the_other is not boolean" do
+    assert_raises_with_message Stairwell::InvalidBindType, "not_true is not boolean" do
       SomeSql.sql(**args_hash_dup)
     end
   end

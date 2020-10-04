@@ -26,10 +26,15 @@ module Stairwell
 
           bind_hash.each do |bind_name, bind_value|
             type = all_validations[bind_name]
-            type = type.first if type.is_a?(Array)
-            valid = TypeValidator.send(type, bind_value)
+            if type.is_a?(Array)
+              type = type.first
+              type_object = Types::InType.new(bind_value, type)
+            end
+            type_object ||= TYPE_CLASSES[type].new(bind_value)
 
-            raise InvalidBindType.new("#{bind_name} is not #{all_validations[bind_name]}") unless valid
+            raise InvalidBindType.new("#{bind_name} is not #{all_validations[bind_name]}") unless type_object.valid?
+
+            bind_hash[bind_name] = type_object
           end
         end
 
