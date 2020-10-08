@@ -1,3 +1,15 @@
+require "stairwell/bind_transformer"
+require "stairwell/types/boolean_type"
+require "stairwell/types/column_name_type"
+require "stairwell/types/date_time_type"
+require "stairwell/types/date_type"
+require "stairwell/types/float_type"
+require "stairwell/types/integer_type"
+require "stairwell/types/in_type"
+require "stairwell/types/string_type"
+require "stairwell/types/null_type"
+require "stairwell/types/table_name_type"
+
 module Stairwell
   class Query
 
@@ -26,10 +38,15 @@ module Stairwell
 
           bind_hash.each do |bind_name, bind_value|
             type = all_validations[bind_name]
-            type = type.first if type.is_a?(Array)
-            valid = TypeValidator.send(type, bind_value)
+            if type.is_a?(Array)
+              type = type.first
+              type_object = Types::InType.new(bind_value, type)
+            end
+            type_object ||= Object.const_get(TYPE_CLASSES[type]).new(bind_value)
 
-            raise InvalidBindType.new("#{bind_name} is not #{all_validations[bind_name]}") unless valid
+            raise InvalidBindType.new("#{bind_name} is not #{all_validations[bind_name]}") unless type_object.valid?
+
+            bind_hash[bind_name] = type_object
           end
         end
 

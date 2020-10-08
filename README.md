@@ -20,7 +20,7 @@ Or install it yourself as:
 
 ## Usage
 
-Define a class in your app that inherits from `Stairwell::Query`. We're going to assume you are in a rails app, but this will work in any ruby app, ActiveRecord is not a dependency here.
+Define a class in your app that inherits from `Stairwell::Query`. We're going to assume you are in a rails app, but this will work in any ruby app, although ActiveRecord is a dependency of this gem.
 In rails you could create a directory called `app/queries` for instance.
 
 Define your `validate_type`, which will be the arguments you send in, and their type. For instance, if your query looks like this: `SELECT * FROM users WHERE name = :name`, and name is a `String`, your `validate_type` will look like this `validate_type :name, :string`, and you'll pass in a hash of your binds like this: `{ name: "<name value>" }`
@@ -75,16 +75,27 @@ UsersSql.sql(binds)
 Binds passed in are validated against the validate_type, so if you have a validate_type you must include that value in your binds hash.
 They types of the binds are validated too.
 The names binds in your sql are also validated.
-Strings are quoted. Dates are quoted. Datetime is quoted.
+All types are quoted using ActiveRecord quoting, which will be different depending on your database type (Mysql, postgres etc.)
 
-Tested in both Mysql and Postgres.
+## Supported Types
+
+| Type         | Values Accepted      | Info                                                                                                 |
+|--------------|----------------------|------------------------------------------------------------------------------------------------------|
+| :boolean     | TrueClass/FalseClass | Not fully supported since many databases require 'IS TRUE' or 'IS FALSE'                             |
+| :column_name | String               | for quoting a column name                                                                            |
+| :date_time   | String               | only taking the actual string for now                                                                |
+| :date        | String               | only taking the actual string for now                                                                |
+| :float       | Float                |                                                                                                      |
+| [<type>]     | Array                | will quote any type provided in the array [:integer]                                                 |
+| :integer     | Integer              |                                                                                                      |
+| :null        | NilClass             | nil/NULL values are not completely supported since many databases require 'IS NULL' or 'IS NOT NULL' |
+| :string      | String               |                                                                                                      |
+| :table_name  | String               | for quoting a table name                                                                             |
 
 ## Known issues
 
-* nil/NULL values are not currently supported. Just use `IS NULL` or `IS NOT NULL` in your query for the time being.
+* nil/NULL values are not completely supported, since many databases require `IS NULL`, or `IS NOT NULL`, you can use the null_type here, but it will only accept `nil`, and it will possibly not support what you're trying to do. YMMV.
 * Date/Datetime are not validated for their format, it is expected that you will pass the correct format.
-* Datetime in postgres is not currently working for equality, only for `>` or `<` or `>=` or `<=`
-* Column/table quoting is not currently available.
 
 
 ## Development

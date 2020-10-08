@@ -5,8 +5,8 @@ class SomeSql < Stairwell::Query
   validate_type :that, :integer
   validate_type :the_other, :boolean
   validate_type :other_the, :float
-  validate_type :other_that, :sql_date
-  validate_type :other_this, :sql_date_time
+  validate_type :other_that, :date
+  validate_type :other_this, :date_time
 
   query <<-SQL
     SELECT
@@ -107,7 +107,7 @@ class Stairwell::QueryTest < Minitest::Test
   end
 
   def test_integration
-    expected_result = "SELECT * FROM mytable WHERE column_a = 'string' AND column_b = 1 AND column_c = TRUE AND column_c = 1.0 AND column_c = 'Date' AND column_c = 'DateTime'"
+    expected_result = "SELECT * FROM mytable WHERE column_a = 'string' AND column_b = 1 AND column_c = 1 AND column_c = 1.0 AND column_c = 'Date' AND column_c = 'DateTime'"
 
     assert_match SomeSql.sql(**args_hash), expected_result
   end
