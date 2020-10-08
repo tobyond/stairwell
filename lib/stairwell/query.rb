@@ -1,3 +1,15 @@
+require "stairwell/bind_transformer"
+require "stairwell/types/boolean_type"
+require "stairwell/types/column_name_type"
+require "stairwell/types/date_time_type"
+require "stairwell/types/date_type"
+require "stairwell/types/float_type"
+require "stairwell/types/integer_type"
+require "stairwell/types/in_type"
+require "stairwell/types/string_type"
+require "stairwell/types/null_type"
+require "stairwell/types/table_name_type"
+
 module Stairwell
   class Query
 
@@ -30,7 +42,7 @@ module Stairwell
               type = type.first
               type_object = Types::InType.new(bind_value, type)
             end
-            type_object ||= TYPE_CLASSES[type].new(bind_value)
+            type_object ||= Object.const_get(TYPE_CLASSES[type]).new(bind_value)
 
             raise InvalidBindType.new("#{bind_name} is not #{all_validations[bind_name]}") unless type_object.valid?
 

@@ -5,5 +5,13 @@ module Stairwell::Types
     def initialize(value)
       @value = value
     end
+
+    def quote
+      connection.quote(value)
+    end
+
+    def connection
+      @connection ||= ActiveRecord::Base.connection
+    end
   end
 end

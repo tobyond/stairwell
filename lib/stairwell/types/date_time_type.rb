@@ -5,9 +5,5 @@ module Stairwell::Types
     def valid?
       value.is_a?(String)
     end
-
-    def quote
-      "'#{value.gsub('\\', '\&\&').gsub("'", "''")}'"
-    end
   end
 end

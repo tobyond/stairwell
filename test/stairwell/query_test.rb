@@ -69,7 +69,7 @@ class Stairwell::QueryTest < Minitest::Test
     args_hash_dup = args_hash.dup
     args_hash_dup[:the_other] = "not_true"
 
-    assert_raises_with_message Stairwell::InvalidBindType, "not_true is not boolean" do
+    assert_raises_with_message Stairwell::InvalidBindType, "the_other is not boolean" do
       SomeSql.sql(**args_hash_dup)
     end
   end
@@ -107,7 +107,7 @@ class Stairwell::QueryTest < Minitest::Test
   end
 
   def test_integration
-    expected_result = "SELECT * FROM mytable WHERE column_a = 'string' AND column_b = 1 AND column_c = TRUE AND column_c = 1.0 AND column_c = 'Date' AND column_c = 'DateTime'"
+    expected_result = "SELECT * FROM mytable WHERE column_a = 'string' AND column_b = 1 AND column_c = 1 AND column_c = 1.0 AND column_c = 'Date' AND column_c = 'DateTime'"
 
     assert_match SomeSql.sql(**args_hash), expected_result
   end

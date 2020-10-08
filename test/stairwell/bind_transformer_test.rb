@@ -41,7 +41,7 @@ class Stairwell::BindTransformerTest < Minitest::Test
       created_at: Stairwell::Types::DateTimeType.new("2008-08-28 23:41:18"),
       gpa: Stairwell::Types::FloatType.new(4.2)
     }
-    expected_result = "SELECT * FROM table_1 WHERE name = 'First' age = 99 active = TRUE date_joined = '2008-08-28' created_at = '2008-08-28 23:41:18' gpa = 4.2;"
+    expected_result = "SELECT * FROM table_1 WHERE name = 'First' age = 99 active = 1 date_joined = '2008-08-28' created_at = '2008-08-28 23:41:18' gpa = 4.2;"
 
     assert_match Stairwell::BindTransformer.new(sql, binds).transform, expected_result
   end

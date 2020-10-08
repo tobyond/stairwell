@@ -1,6 +1,7 @@
 $LOAD_PATH.unshift File.expand_path("../lib", __dir__)
 require "stairwell"
 require "pry"
+require "active_record"
 
 require "minitest/autorun"
 

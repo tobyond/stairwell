@@ -1,7 +1,7 @@
 module Stairwell
   class BindTransformer
 
-    attr_accessor :sql, :bind_hash, :depleting_bind_hash
+    attr_accessor :sql, :bind_hash, :depleting_bind_hash, :converted_sql
 
     def initialize(sql, bind_hash)
       @sql = sql
@@ -18,14 +18,17 @@ module Stairwell
     # with quoted values to ensure safety.
     # Note: $2 is The match for the first, second, etc. parenthesized groups in the last regex
     def transform
-      converted_sql = sql.gsub(/(:?):([a-zA-Z]\w*)/) do |_|
+      convert_sql
+      validate_bind_hash
+      converted_sql
+    end
+
+    def convert_sql
+      @converted_sql ||= sql.gsub(/(:?):([a-zA-Z]\w*)/) do |_|
         replace = $2.to_sym
         validate_sql(replace)
         bind_hash[replace].quote
       end
-
-      validate_bind_hash
-      converted_sql
     end
 
     private

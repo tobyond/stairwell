@@ -5,9 +5,5 @@ module Stairwell::Types
     def valid?
       value.is_a?(Float)
     end
-
-    def quote
-      value
-    end
   end
 end
