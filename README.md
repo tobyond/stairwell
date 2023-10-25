@@ -18,6 +18,12 @@ Or install it yourself as:
 
     $ gem install stairwell
 
+## Why?
+Although ActiveRecord serves as an excellent tool for the majority of database queries, certain scenarios call for more customized queries.
+This project was initially conceived to help transition a development team and their project from PHP to Ruby. This PHP project had thousands of complex SQL queries, thus the necessity of making SQL a first-class citizen in the ruby project enabled a smoother transition.
+So, why not Arel? Arel is a powerful tool, but it's worth noting that it is considered a private API and is likely to remain so for the forseeable future.
+Does this approach make queries less composable? Yes, if you are used to chaining your arel queries and AR scopes then you're probably not going to use this. However, it provides an interface that enables you to leverage SQL securely in your Ruby projects without the need to reinvent the wheel.
+
 ## Usage
 
 Define a class in your app that inherits from `Stairwell::Query`. We're going to assume you are in a rails app, but this will work in any ruby app, although ActiveRecord is a dependency of this gem.
@@ -57,7 +63,7 @@ binds = {
   name: "First",
   age: 99,
   active: true,
-  gpa: 4.2
+  gpa: 4.2,
   date_joined: "2008-08-28",
   created_at: "2008-08-28 23:41:18",
   favorite_numbers: [4, 7, 100]
