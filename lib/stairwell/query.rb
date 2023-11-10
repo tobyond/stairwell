@@ -9,9 +9,7 @@ module Stairwell
       end
 
       def sql(**args)
-        if args.keys.sort != all_validations.keys.sort
-          raise InvalidBindCount, 'Incorrect amount of args passed'
-        end
+        raise InvalidBindCount, 'Incorrect amount of args passed' if args.keys.sort != all_validations.keys.sort
 
         @type_hash = args.each_with_object({}) do |(name, value), hash|
           hash[name] = TypeObjectAssigner.run(name:, value:, all_validations:)
@@ -29,10 +27,6 @@ module Stairwell
 
       def transformer
         BindTransformer.new(sql_string, type_hash)
-      end
-
-      def correct_args?
-        
       end
     end
   end
