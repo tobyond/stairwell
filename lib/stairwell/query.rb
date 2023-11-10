@@ -1,62 +1,39 @@
-require "stairwell/bind_transformer"
-require "stairwell/types/boolean_type"
-require "stairwell/types/column_name_type"
-require "stairwell/types/date_time_type"
-require "stairwell/types/date_type"
-require "stairwell/types/float_type"
-require "stairwell/types/integer_type"
-require "stairwell/types/in_type"
-require "stairwell/types/string_type"
-require "stairwell/types/null_type"
-require "stairwell/types/table_name_type"
+# frozen_string_literal: true
 
 module Stairwell
   class Query
-
     class << self
-      attr_accessor :bind_hash, :all_validations, :sql_string
-
       def validate_type(*args)
         @all_validations ||= {}
         @all_validations.merge!(Hash[*args])
       end
 
       def sql(**args)
-        @bind_hash = args
-        validate!
-        transformed_sql_string
+        if args.keys.sort != all_validations.keys.sort
+          raise InvalidBindCount, 'Incorrect amount of args passed'
+        end
+
+        @type_hash = args.each_with_object({}) do |(name, value), hash|
+          hash[name] = TypeObjectAssigner.run(name:, value:, all_validations:)
+        end
+        transformer.run
       end
 
       def query(string)
-        @sql_string = string
+        @sql_string = string.squish
       end
 
       private
 
-        def validate!
-          raise InvalidBindCount.new("Incorrect amount of args passed") unless correct_args?
+      attr_reader :type_hash, :all_validations, :sql_string
 
-          bind_hash.each do |bind_name, bind_value|
-            type = all_validations[bind_name]
-            if type.is_a?(Array)
-              type = type.first
-              type_object = Types::InType.new(bind_value, type)
-            end
-            type_object ||= Object.const_get(TYPE_CLASSES[type]).new(bind_value)
+      def transformer
+        BindTransformer.new(sql_string, type_hash)
+      end
 
-            raise InvalidBindType.new("#{bind_name} is not #{all_validations[bind_name]}") unless type_object.valid?
-
-            bind_hash[bind_name] = type_object
-          end
-        end
-
-        def transformed_sql_string
-          BindTransformer.new(sql_string.squish!, bind_hash).transform
-        end
-
-        def correct_args?
-          bind_hash.keys.sort == all_validations.keys.sort
-        end
+      def correct_args?
+        
+      end
     end
   end
 end

@@ -1,9 +1,11 @@
-require "stairwell/types/base_type"
+# frozen_string_literal: true
 
-module Stairwell::Types
-  class NullType < BaseType
-    def valid?
-      value.is_a?(NilClass)
+module Stairwell
+  module Types
+    class NullType < BaseType
+      def valid?
+        value.is_a?(NilClass)
+      end
     end
   end
 end

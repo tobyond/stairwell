@@ -1,22 +1,27 @@
-require "test_helper"
+# frozen_string_literal: true
 
-class Stairwell::Types::TableNameTypeTest < Minitest::Test
+require 'test_helper'
 
-  def test_valid_when_valid
-    string_type = Stairwell::Types::TableNameType.new("table_name")
+module Stairwell
+  module Types
+    class TableNameTypeTest < Minitest::Test
+      def test_valid_when_valid
+        string_type = Stairwell::Types::TableNameType.new('table_name')
 
-    assert_equal string_type.valid?, true
-  end
+        assert_equal string_type.valid?, true
+      end
 
-  def test_valid_when_not_valid
-    string_type = Stairwell::Types::TableNameType.new(1)
+      def test_valid_when_not_valid
+        assert_raises_with_message Stairwell::InvalidBindType, '1 is not tablename' do
+          Stairwell::Types::TableNameType.new(1)
+        end
+      end
 
-    assert_equal string_type.valid?, false
-  end
+      def test_quote
+        string_type = Stairwell::Types::TableNameType.new('table_name')
 
-  def test_quote
-    string_type = Stairwell::Types::TableNameType.new("table_name")
-
-    assert_equal "\"table_name\"", string_type.quote
+        assert_equal '"table_name"', string_type.quote
+      end
+    end
   end
 end

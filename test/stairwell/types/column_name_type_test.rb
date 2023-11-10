@@ -1,22 +1,27 @@
-require "test_helper"
+# frozen_string_literal: true
 
-class Stairwell::Types::ColumnNameTypeTest < Minitest::Test
+require 'test_helper'
 
-  def test_valid_when_valid
-    string_type = Stairwell::Types::ColumnNameType.new("column_name")
+module Stairwell
+  module Types
+    class ColumnNameTypeTest < Minitest::Test
+      def test_valid_when_valid
+        string_type = Stairwell::Types::ColumnNameType.new('column_name')
 
-    assert_equal string_type.valid?, true
-  end
+        assert_equal string_type.valid?, true
+      end
 
-  def test_valid_when_not_valid
-    string_type = Stairwell::Types::ColumnNameType.new(1)
+      def test_valid_when_not_valid
+        assert_raises_with_message Stairwell::InvalidBindType, '1 is not columnname' do
+          Stairwell::Types::ColumnNameType.new(1)
+        end
+      end
 
-    assert_equal string_type.valid?, false
-  end
+      def test_quote
+        string_type = Stairwell::Types::ColumnNameType.new('column_name')
 
-  def test_quote
-    string_type = Stairwell::Types::ColumnNameType.new("column_name")
-
-    assert_equal "\"column_name\"", string_type.quote
+        assert_equal '"column_name"', string_type.quote
+      end
+    end
   end
 end

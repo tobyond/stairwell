@@ -1,9 +1,11 @@
-require "stairwell/types/base_type"
+# frozen_string_literal: true
 
-module Stairwell::Types
-  class BooleanType < BaseType
-    def valid?
-      value.is_a?(TrueClass) || value.is_a?(FalseClass)
+module Stairwell
+  module Types
+    class BooleanType < BaseType
+      def valid?
+        value.is_a?(TrueClass) || value.is_a?(FalseClass)
+      end
     end
   end
 end

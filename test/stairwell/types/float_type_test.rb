@@ -1,22 +1,27 @@
-require "test_helper"
+# frozen_string_literal: true
 
-class Stairwell::Types::FloatTypeTest < Minitest::Test
+require 'test_helper'
 
-  def test_valid_when_valid
-    string_type = Stairwell::Types::FloatType.new(4.2)
+module Stairwell
+  module Types
+    class FloatTypeTest < Minitest::Test
+      def test_valid_when_valid
+        string_type = Stairwell::Types::FloatType.new(4.2)
 
-    assert_equal string_type.valid?, true
-  end
+        assert_equal string_type.valid?, true
+      end
 
-  def test_valid_when_not_valid
-    string_type = Stairwell::Types::FloatType.new("42")
+      def test_valid_when_not_valid
+        assert_raises_with_message Stairwell::InvalidBindType, '42 is not float' do
+          Stairwell::Types::FloatType.new('42')
+        end
+      end
 
-    assert_equal string_type.valid?, false
-  end
+      def test_quote
+        string_type = Stairwell::Types::FloatType.new(4.2)
 
-  def test_quote
-    string_type = Stairwell::Types::FloatType.new(4.2)
-
-    assert_equal "4.2", string_type.quote
+        assert_equal '4.2', string_type.quote
+      end
+    end
   end
 end

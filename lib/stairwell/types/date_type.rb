@@ -1,9 +1,11 @@
-require "stairwell/types/base_type"
+# frozen_string_literal: true
 
-module Stairwell::Types
-  class DateType < BaseType
-    def valid?
-      value.is_a?(String)
+module Stairwell
+  module Types
+    class DateType < BaseType
+      def valid?
+        value.is_a?(String)
+      end
     end
   end
 end

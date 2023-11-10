@@ -51,7 +51,7 @@ class Stairwell::QueryTest < Minitest::Test
     args_hash_dup = args_hash.dup
     args_hash_dup[:this] = 1
 
-    assert_raises_with_message Stairwell::InvalidBindType, "this is not string" do
+    assert_raises_with_message Stairwell::InvalidBindType, "1 is not string" do
       SomeSql.sql(**args_hash_dup)
     end
   end
@@ -60,7 +60,7 @@ class Stairwell::QueryTest < Minitest::Test
     args_hash_dup = args_hash.dup
     args_hash_dup[:that] = "string"
 
-    assert_raises_with_message Stairwell::InvalidBindType, "that is not integer" do
+    assert_raises_with_message Stairwell::InvalidBindType, "string is not integer" do
       SomeSql.sql(**args_hash_dup)
     end
   end
@@ -69,7 +69,7 @@ class Stairwell::QueryTest < Minitest::Test
     args_hash_dup = args_hash.dup
     args_hash_dup[:the_other] = "not_true"
 
-    assert_raises_with_message Stairwell::InvalidBindType, "the_other is not boolean" do
+    assert_raises_with_message Stairwell::InvalidBindType, "not_true is not boolean" do
       SomeSql.sql(**args_hash_dup)
     end
   end
@@ -78,7 +78,7 @@ class Stairwell::QueryTest < Minitest::Test
     args_hash_dup = args_hash.dup
     args_hash_dup[:other_the] = 1
 
-    assert_raises_with_message Stairwell::InvalidBindType, "other_the is not float" do
+    assert_raises_with_message Stairwell::InvalidBindType, "1 is not float" do
       SomeSql.sql(**args_hash_dup)
     end
   end
@@ -122,7 +122,7 @@ class Stairwell::QueryTest < Minitest::Test
   def test_in_statement_with_arrays_with_invalid_args
     binds = { foo: "This", moo: [1, '2', 3, 4], goo: %w(1 2 3 4) }
 
-    assert_raises_with_message Stairwell::InvalidBindType, "moo is not [:integer]" do
+    assert_raises_with_message Stairwell::InvalidBindType, "2 is not integer" do
       SomeOtherSql.sql(**binds)
     end
 

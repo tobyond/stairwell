@@ -1,22 +1,27 @@
-require "test_helper"
+# frozen_string_literal: true
 
-class Stairwell::Types::DateTimeTypeTest < Minitest::Test
+require 'test_helper'
 
-  def test_valid_when_valid
-    string_type = Stairwell::Types::DateTimeType.new("date_time")
+module Stairwell
+  module Types
+    class DateTimeTypeTest < Minitest::Test
+      def test_valid_when_valid
+        string_type = Stairwell::Types::DateTimeType.new('date_time')
 
-    assert_equal string_type.valid?, true
-  end
+        assert_equal string_type.valid?, true
+      end
 
-  def test_valid_when_not_valid
-    string_type = Stairwell::Types::DateTimeType.new(1)
+      def test_valid_when_not_valid
+        assert_raises_with_message Stairwell::InvalidBindType, '1 is not datetime' do
+          Stairwell::Types::DateTimeType.new(1)
+        end
+      end
 
-    assert_equal string_type.valid?, false
-  end
+      def test_quote
+        string_type = Stairwell::Types::DateTimeType.new('date_time')
 
-  def test_quote
-    string_type = Stairwell::Types::DateTimeType.new("date_time")
-
-    assert_equal "'date_time'", string_type.quote
+        assert_equal "'date_time'", string_type.quote
+      end
+    end
   end
 end

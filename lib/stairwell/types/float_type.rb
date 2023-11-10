@@ -1,9 +1,11 @@
-require "stairwell/types/base_type"
+# frozen_string_literal: true
 
-module Stairwell::Types
-  class FloatType < BaseType
-    def valid?
-      value.is_a?(Float)
+module Stairwell
+  module Types
+    class FloatType < BaseType
+      def valid?
+        value.is_a?(Float)
+      end
     end
   end
 end
