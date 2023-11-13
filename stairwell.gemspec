@@ -31,7 +31,4 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'activerecord', '>= 4.2.11'
   spec.add_dependency 'rake'
   spec.add_dependency 'zeitwerk', '~> 2.5'
-
-  # for development and testing
-  spec.add_dependency 'sqlite3' unless defined?(Rails)
 end

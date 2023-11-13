@@ -6,8 +6,13 @@ require 'stairwell'
 require 'active_record'
 
 require 'minitest/autorun'
+require_relative 'fixtures/fixture'
 
 module Minitest
+  Stairwell.configure do |config|
+    config.path = './test/fixtures/'
+  end
+
   class Test
     def assert_raises_with_message(exception, msg, &block)
       block.call

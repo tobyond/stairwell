@@ -83,6 +83,22 @@ They types of the binds are validated too.
 The names binds in your sql are also validated.
 All types are quoted using ActiveRecord quoting, which will be different depending on your database type (Mysql, postgres etc.)
 
+## SQL files
+Support for sql files is being trialed. If you would like to reference raw sql file instead of quoting the sql in the ruby file, you can. You just have to place the file adjacent to the ruby file and name them the same eq: ruby file is `users_count.rb` the file would need to be in the same directory and named `users_count.sql`. You also need to set the path in your config:
+
+```ruby
+# in ruby project:
+Stairwell.configure do |config|
+  config.path = './app/queries/'
+end
+
+# in Rails:
+Stairwell.configure do |config|
+  config.path = "#{Rails.root}/app/queries/"
+end
+
+```
+
 ## Supported Types
 
 | Type         | Values Accepted      | Info                                                                                                 |

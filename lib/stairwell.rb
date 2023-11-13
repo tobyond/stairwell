@@ -20,6 +20,16 @@ module Stairwell
     table_name: 'Stairwell::Types::TableNameType'
   }.freeze
 
+  class << self
+    def configuration
+      @configuration ||= Configuration.new
+    end
+
+    def configure
+      yield configuration
+    end
+  end
+
   # for development and testing
   unless defined?(Rails)
     ::ActiveRecord::Base.establish_connection(
