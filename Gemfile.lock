@@ -1,10 +1,7 @@
 PATH
   remote: .
   specs:
-    stairwell (0.6.3)
-      activerecord (~> 7.0, >= 7.0.1)
-      rake
-      zeitwerk (~> 2.5)
+    stairwell (0.6.5)
 
 GEM
   remote: https://rubygems.org/
@@ -47,8 +44,11 @@ PLATFORMS
   x86_64-darwin-20
 
 DEPENDENCIES
+  activerecord (~> 7.0, >= 7.0.1)
+  rake
   sqlite3
   stairwell!
+  zeitwerk (~> 2.5)
 
 BUNDLED WITH
    2.4.10

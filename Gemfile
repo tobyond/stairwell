@@ -7,4 +7,7 @@ gemspec
 
 group :development, :test do
   gem 'sqlite3'
+  gem 'rake'
+  gem 'activerecord', '~> 7.0', '>= 7.0.1'
+  gem 'zeitwerk', '~> 2.5'
 end

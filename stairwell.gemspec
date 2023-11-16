@@ -27,10 +27,4 @@ Gem::Specification.new do |spec|
   spec.bindir        = 'exe'
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
-
-  unless defined?(Rails)
-    spec.add_runtime_dependency 'activerecord', '~> 7.0', '>= 7.0.1'
-    spec.add_dependency 'rake'
-    spec.add_dependency 'zeitwerk', '~> 2.5'
-  end
 end

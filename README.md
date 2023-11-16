@@ -18,6 +18,13 @@ Or install it yourself as:
 
     $ gem install stairwell
 
+## Requirements
+`zeitwerk` gem, so make sure you have rails 7
+`activeRecord` gem.
+
+## Warnings
+Never accept params from a form directly into any sql, it's dangerous, and can lead to horrible outcomes. Cool? Great!
+
 ## Why?
 Although ActiveRecord serves as an excellent tool for the majority of database queries, certain scenarios call for more customized queries.
 This project was initially conceived to help transition a development team and their project from PHP to Ruby. This PHP project had thousands of complex SQL queries, thus the necessity of making SQL a first-class citizen in the ruby project enabled a smoother transition.
