@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    stairwell (0.6.2)
+    stairwell (0.6.3)
       activerecord (~> 7.0, >= 7.0.1)
       rake
       zeitwerk (~> 2.5)
