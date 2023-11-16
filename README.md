@@ -118,6 +118,7 @@ end
 
 * nil/NULL values are not completely supported, since many databases require `IS NULL`, or `IS NOT NULL`, you can use the null_type here, but it will only accept `nil`, and it will possibly not support what you're trying to do. YMMV.
 * Date/Datetime are not validated for their format, it is expected that you will pass the correct format.
+* Casting values with colons like postgres is currently not supported: `SELECT '100'::integer;` etc.
 
 
 ## Development

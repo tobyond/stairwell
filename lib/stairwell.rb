@@ -22,7 +22,7 @@ module Stairwell
 
   class << self
     def configuration
-      @configuration ||= Configuration.new
+      @configuration ||= Stairwell::Configuration.new
     end
 
     def configure
